@@ -9,7 +9,9 @@ board_state = [
 ]
 
 
-def draw_board(stdscr):
+
+def draw_game(stdscr):
+
     k = 0
     cursor_x = 0
     cursor_y = 0
@@ -96,6 +98,21 @@ def draw_board(stdscr):
         stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
         stdscr.move(cursor_y, cursor_x)
 
+        # Print board
+        stdscr.attron(curses.color_pair(3))
+        start_x_board = int((width // 2) - (17 // 2) - 17 % 2)
+        stdscr.attron(curses.color_pair(3))
+        stdscr.addstr(4, start_x_board, " " * 17)
+        for x in range(0, 4):
+            stdscr.addstr(5, start_x_board + (x * 5), "  ")
+        stdscr.addstr(6, start_x_board, " " * 17)
+        for x in range(0, 4):
+            stdscr.addstr(7, start_x_board + (x * 5), "  ")
+        stdscr.addstr(8, start_x_board, " " * 17)
+        for x in range(0, 4):
+            stdscr.addstr(9, start_x_board + (x * 5), "  ")
+        stdscr.addstr(10, start_x_board, " " * 17)
+
         # Refresh the screen
         stdscr.refresh()
 
@@ -104,7 +121,7 @@ def draw_board(stdscr):
 
 
 def main():
-    curses.wrapper(draw_board)
+    curses.wrapper(draw_game)
 
 if __name__ == "__main__":
     main()
