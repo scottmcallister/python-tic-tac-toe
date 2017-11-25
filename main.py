@@ -2,8 +2,14 @@ import sys
 import os
 import curses
 
+board_state = [
+    [' ', ' ', ' '],
+    [' ', ' ', ' '],
+    [' ', ' ', ' ']
+]
 
-def draw_menu(stdscr):
+
+def draw_board(stdscr):
     k = 0
     cursor_x = 0
     cursor_y = 0
@@ -45,8 +51,10 @@ def draw_menu(stdscr):
         # Declaration of strings
         title = "Tic Tac Toe"[:width-1]
         subtitle = "Written in Python"[:width-1]
-        keystr = "Last key pressed: {}".format(k)[:width-1]
-        statusbarstr = "Press 'q' to exit | STATUS BAR | Pos: {}, {}".format(cursor_x, cursor_y)
+        instr_title = "Instructions"
+        instr_move = " Use keypad to move cursor"
+        instr_select = " Press enter to select square"
+        instr_quit = " Press 'q' to exit"
         if k == 0:
             keystr = "No key press detected..."[:width-1]
 
@@ -54,16 +62,23 @@ def draw_menu(stdscr):
         start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
         start_x_subtitle = int((width // 2) - (len(subtitle) // 2) - len(subtitle) % 2)
         start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
-        start_y = int((height // 2) - 2)
+        start_x_instr_title = int((width // 2) - (len(instr_title) // 2) - len(instr_title) % 2)
+        start_y = 1
 
-        # Rendering some text
-        whstr = "Width: {}, Height: {}".format(width, height)
-        stdscr.addstr(0, 0, whstr, curses.color_pair(1))
 
         # Render status bar
         stdscr.attron(curses.color_pair(3))
-        stdscr.addstr(height-1, 0, statusbarstr)
-        stdscr.addstr(height-1, len(statusbarstr), " " * (width - len(statusbarstr) - 1))
+        stdscr.addstr(height-4, 0, " " * (start_x_instr_title - 1))
+        stdscr.addstr(height-4, start_x_instr_title - 1, instr_title)
+        stdscr.addstr(height-4,
+                      start_x_instr_title + len(instr_title) - 1,
+                      " " * (width - (start_x_instr_title + len(instr_title))))
+        stdscr.addstr(height-3, 0, instr_move)
+        stdscr.addstr(height-2, 0, instr_select)
+        stdscr.addstr(height-1, 0, instr_quit)
+        stdscr.addstr(height-3, len(instr_move), " " * (width - len(instr_move) - 1))
+        stdscr.addstr(height-2, len(instr_select), " " * (width - len(instr_select) - 1))
+        stdscr.addstr(height-1, len(instr_quit), " " * (width - len(instr_quit) - 1))
         stdscr.attroff(curses.color_pair(3))
 
         # Turning on attributes for title
@@ -79,8 +94,6 @@ def draw_menu(stdscr):
 
         # Print rest of text
         stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-        # stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
-        # stdscr.addstr(start_y + 5, start_x_keystr, keystr)
         stdscr.move(cursor_y, cursor_x)
 
         # Refresh the screen
@@ -91,7 +104,7 @@ def draw_menu(stdscr):
 
 
 def main():
-    curses.wrapper(draw_menu)
+    curses.wrapper(draw_board)
 
 if __name__ == "__main__":
     main()
