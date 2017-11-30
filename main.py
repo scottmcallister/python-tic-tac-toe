@@ -3,9 +3,9 @@ import os
 import curses
 
 board_state = [
-    [' ', ' ', ' '],
-    [' ', ' ', ' '],
-    [' ', ' ', ' ']
+    ['X', 'X', 'O'],
+    ['O', 'O', 'X'],
+    ['X', 'O', 'X']
 ]
 
 
@@ -122,6 +122,13 @@ def draw_game(stdscr):
                 stdscr.addstr(9, start_x_board + (x * 5), "  ")
             stdscr.addstr(10, start_x_board, " " * 17)
 
+            # Print board state
+            stdscr.attroff(curses.color_pair(3))
+            for row in range(0, 3):
+                for col in range(0, 3):
+                    y_val = 5 + (col * 2)
+                    x_val = start_x_board + 3 + (row * 5)
+                    stdscr.addstr(y_val, x_val, board_state[row][col])
             # Refresh the screen
             stdscr.refresh()
 
