@@ -3,10 +3,72 @@ import os
 import curses
 
 board_state = [
-    ['X', 'X', 'O'],
-    ['O', 'O', 'X'],
-    ['X', 'O', 'X']
+    [' ', ' ', ' '],
+    [' ', ' ', ' '],
+    [' ', ' ', ' ']
 ]
+
+
+def check_for_win():
+    if check_rows() != ' ':
+        return check_rows()
+    if check_cols() != ' ':
+        return check_cols()
+    if check_diagonals() != ' ':
+        return check_cols()
+    if no_blanks():
+        return 'Tie'
+    return 'Still Playing'
+
+
+def check_rows():
+    for row in range(0, 3):
+        row_vals = board_state[row]
+        if all(cell == row_vals[0] for cell in row_vals) \
+           and board_state[row][0] != ' ':
+            return board_state[row][0]
+    return ' '
+
+
+def check_cols():
+    for col in range(0, 3):
+        col_vals = [
+            board_state[0][col],
+            board_state[1][col],
+            board_state[2][col]
+        ]
+        if all(cell == board_state[0][col] for cell in col_vals) \
+           and board_state[0][col] != ' ':
+            return board_state[0][col]
+    return ' '
+
+
+def check_diagonals():
+    descending = [
+        board_state[0][0],
+        board_state[1][1],
+        board_state[2][2]
+    ]
+    ascending = [
+        board_state[2][0],
+        board_state[1][1],
+        board_state[0][2]
+    ]
+    if all(cell == descending[0] for cell in descending) \
+       and descending[0] != ' ':
+        return descending[0]
+    if all(cell == ascending[0] for cell in ascending) \
+       and ascending[0] != ' ':
+        return ascending[0]
+    return ' '
+
+
+def no_blanks():
+    for row in range(0, 3):
+        for col in range(0, 3):
+            if board_state[row][col] == ' ':
+                return False
+    return True
 
 
 def draw_game(stdscr):
@@ -137,7 +199,9 @@ def draw_game(stdscr):
 
 
 def main():
-    curses.wrapper(draw_game)
+    # curses.wrapper(draw_game)
+    print(check_for_win())
+
 
 if __name__ == "__main__":
     main()
