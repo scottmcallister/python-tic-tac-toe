@@ -2,11 +2,33 @@ import sys
 import os
 import curses
 
+
+cursor_state = 0
 board_state = [
     [' ', ' ', ' '],
     [' ', ' ', ' '],
     [' ', ' ', ' ']
 ]
+
+
+def move_up(state):
+    new_state = state - 3 if state > 2 else state
+    return new_state
+
+
+def move_down(state):
+    new_state = state + 3 if state < 6 else state
+    return new_state
+
+
+def move_left(state):
+    new_state = state - 1 if state % 3 != 0 else state
+    return new_state
+
+
+def move_right(state):
+    new_state = state + 1 if state % 3 != 2 else state
+    return new_state
 
 
 def check_for_win():
@@ -72,7 +94,7 @@ def no_blanks():
 
 
 def draw_game(stdscr):
-
+    global cursor_state
     k = 0
     cursor_x = 0
     cursor_y = 0
@@ -107,19 +129,13 @@ def draw_game(stdscr):
 
         else:
             if k == curses.KEY_DOWN:
-                cursor_y = cursor_y + 1
+                cursor_state = move_down(cursor_state)
             elif k == curses.KEY_UP:
-                cursor_y = cursor_y - 1
+                cursor_state = move_up(cursor_state)
             elif k == curses.KEY_RIGHT:
-                cursor_x = cursor_x + 1
+                cursor_state = move_right(cursor_state)
             elif k == curses.KEY_LEFT:
-                cursor_x = cursor_x - 1
-
-            cursor_x = max(0, cursor_x)
-            cursor_x = min(width-1, cursor_x)
-
-            cursor_y = max(0, cursor_y)
-            cursor_y = min(height-1, cursor_y)
+                cursor_state = move_left(cursor_state)
 
             # Declaration of strings
             title = "Tic Tac Toe"[:width-1]
@@ -137,7 +153,6 @@ def draw_game(stdscr):
             start_x_keystr = int((width // 2) - (len(keystr) // 2) - len(keystr) % 2)
             start_x_instr_title = int((width // 2) - (len(instr_title) // 2) - len(instr_title) % 2)
             start_y = 1
-
 
             # Render status bar
             stdscr.attron(curses.color_pair(3))
@@ -167,7 +182,6 @@ def draw_game(stdscr):
 
             # Print rest of text
             stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-            stdscr.move(cursor_y, cursor_x)
 
             # Print board
             stdscr.attron(curses.color_pair(3))
@@ -191,6 +205,14 @@ def draw_game(stdscr):
                     y_val = 5 + (col * 2)
                     x_val = start_x_board + 3 + (row * 5)
                     stdscr.addstr(y_val, x_val, board_state[row][col])
+
+            # Cursor calculations
+            cursor_x = start_x_board + 3 + ((cursor_state % 3) * 5)
+            cursor_y = 5 + ((cursor_state // 3) * 2)
+
+            # Print cursor
+            stdscr.move(cursor_y, cursor_x)
+
             # Refresh the screen
             stdscr.refresh()
 
@@ -199,8 +221,8 @@ def draw_game(stdscr):
 
 
 def main():
-    # curses.wrapper(draw_game)
-    print(check_for_win())
+    curses.wrapper(draw_game)
+    # print(check_for_win())
 
 
 if __name__ == "__main__":
