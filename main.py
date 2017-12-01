@@ -3,12 +3,12 @@ import os
 import curses
 
 
-cursor_state = 0
 board_state = [
     [' ', ' ', ' '],
     [' ', ' ', ' '],
     [' ', ' ', ' ']
 ]
+cursor_state = 0
 
 
 def move_up(state):
@@ -95,6 +95,7 @@ def no_blanks():
 
 def draw_game(stdscr):
     global cursor_state
+    global board_state
     k = 0
     cursor_x = 0
     cursor_y = 0
@@ -136,13 +137,23 @@ def draw_game(stdscr):
                 cursor_state = move_right(cursor_state)
             elif k == curses.KEY_LEFT:
                 cursor_state = move_left(cursor_state)
+            elif k == ord('m'):
+                board_state[cursor_state % 3][cursor_state // 3] = 'O'
+            elif k == ord('r'):
+                board_state = [
+                    [' ', ' ', ' '],
+                    [' ', ' ', ' '],
+                    [' ', ' ', ' ']
+                ]
+                cursor_state = 0
 
             # Declaration of strings
             title = "Tic Tac Toe"[:width-1]
             subtitle = "Written in Python"[:width-1]
             instr_title = "Instructions"
             instr_move = " Use keypad to move cursor"
-            instr_select = " Press enter to select square"
+            instr_select = " Press 'm' to select square"
+            instr_select = " Press 'r' to restart"
             instr_quit = " Press 'q' to exit"
             if k == 0:
                 keystr = "No key press detected..."[:width-1]
