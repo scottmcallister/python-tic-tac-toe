@@ -1,10 +1,10 @@
 def check_for_win(board_state):
     if check_rows(board_state) != ' ':
-        return check_rows(board_state) + " Wins!"
+        return str(check_rows(board_state)) + " Wins!"
     if check_cols(board_state) != ' ':
-        return check_cols(board_state) + " Wins!"
+        return str(check_cols(board_state)) + " Wins!"
     if check_diagonals(board_state) != ' ':
-        return check_cols(board_state) + " Wins!"
+        return str(check_diagonals(board_state)) + " Wins!"
     if no_blanks(board_state):
         return 'Tie'
     return 'Active Game'

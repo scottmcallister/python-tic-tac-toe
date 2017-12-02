@@ -76,7 +76,7 @@ def draw_game(stdscr):
                 cursor_state = move_right(cursor_state)
             elif k == curses.KEY_LEFT:
                 cursor_state = move_left(cursor_state)
-            elif k == ord('m'):
+            elif k == ord('m') and check_for_win(board_state) == 'Active Game':
                 if board_state[cursor_state % 3][cursor_state // 3] == ' ':
                     board_state[cursor_state % 3][cursor_state // 3] = 'O'
                     enemy_move = get_move(board_state)
@@ -96,7 +96,7 @@ def draw_game(stdscr):
             instr_title = "Instructions"
             instr_move = " Use keypad to move cursor"
             instr_select = " Press 'm' to select square"
-            instr_select = " Press 'r' to restart"
+            instr_restart = " Press 'r' to restart"
             instr_quit = " Press 'q' to exit"
             if k == 0:
                 keystr = "No key press detected..."[:width-1]
@@ -110,16 +110,18 @@ def draw_game(stdscr):
 
             # Render status bar
             stdscr.attron(curses.color_pair(3))
-            stdscr.addstr(height-4, 0, " " * (start_x_instr_title - 1))
-            stdscr.addstr(height-4, start_x_instr_title - 1, instr_title)
-            stdscr.addstr(height-4,
+            stdscr.addstr(height-5, 0, " " * (start_x_instr_title - 1))
+            stdscr.addstr(height-5, start_x_instr_title - 1, instr_title)
+            stdscr.addstr(height-5,
                           start_x_instr_title + len(instr_title) - 1,
                           " " * (width - (start_x_instr_title + len(instr_title))))
-            stdscr.addstr(height-3, 0, instr_move)
-            stdscr.addstr(height-2, 0, instr_select)
+            stdscr.addstr(height-4, 0, instr_move)
+            stdscr.addstr(height-3, 0, instr_select)
+            stdscr.addstr(height-2, 0, instr_restart)
             stdscr.addstr(height-1, 0, instr_quit)
-            stdscr.addstr(height-3, len(instr_move), " " * (width - len(instr_move) - 1))
-            stdscr.addstr(height-2, len(instr_select), " " * (width - len(instr_select) - 1))
+            stdscr.addstr(height-4, len(instr_move), " " * (width - len(instr_move) - 1))
+            stdscr.addstr(height-3, len(instr_select), " " * (width - len(instr_select) - 1))
+            stdscr.addstr(height-2, len(instr_restart), " " * (width - len(instr_restart) - 1))
             stdscr.addstr(height-1, len(instr_quit), " " * (width - len(instr_quit) - 1))
             stdscr.attroff(curses.color_pair(3))
 
