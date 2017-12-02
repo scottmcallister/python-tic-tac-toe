@@ -58,3 +58,13 @@ def no_blanks(board_state):
             if board_state[row][col] == ' ':
                 return False
     return True
+
+
+def clone_board(board_state):
+    new_board = []
+    for row in range(0, 3):
+        new_row = []
+        for col in range(0, 3):
+            new_row.append(board_state[row][col])
+        new_board.append(new_row)
+    return new_board

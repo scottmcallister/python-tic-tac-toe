@@ -92,7 +92,7 @@ def draw_game(stdscr):
 
             # Declaration of strings
             title = "Tic Tac Toe"[:width-1]
-            subtitle = check_for_win(board_state)
+            subtitle = check_for_win(board_state)[:width-1]
             instr_title = "Instructions"
             instr_move = " Use keypad to move cursor"
             instr_select = " Press 'm' to select square"
