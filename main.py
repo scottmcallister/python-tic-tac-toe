@@ -1,7 +1,7 @@
 import sys
 import os
 import curses
-
+from enemy import get_move
 
 board_state = [
     [' ', ' ', ' '],
@@ -33,14 +33,14 @@ def move_right(state):
 
 def check_for_win():
     if check_rows() != ' ':
-        return check_rows()
+        return check_rows() + " Wins!"
     if check_cols() != ' ':
-        return check_cols()
+        return check_cols() + " Wins!"
     if check_diagonals() != ' ':
-        return check_cols()
+        return check_cols() + " Wins!"
     if no_blanks():
         return 'Tie'
-    return 'Still Playing'
+    return 'Active Game'
 
 
 def check_rows():
@@ -138,7 +138,11 @@ def draw_game(stdscr):
             elif k == curses.KEY_LEFT:
                 cursor_state = move_left(cursor_state)
             elif k == ord('m'):
-                board_state[cursor_state % 3][cursor_state // 3] = 'O'
+                if board_state[cursor_state % 3][cursor_state // 3] == ' ':
+                    board_state[cursor_state % 3][cursor_state // 3] = 'O'
+                    enemy_move = get_move(board_state)
+                    if (enemy_move[0] != -1):
+                        board_state[enemy_move[0]][enemy_move[1]] = 'X'
             elif k == ord('r'):
                 board_state = [
                     [' ', ' ', ' '],
@@ -149,7 +153,7 @@ def draw_game(stdscr):
 
             # Declaration of strings
             title = "Tic Tac Toe"[:width-1]
-            subtitle = "Written in Python"[:width-1]
+            subtitle = check_for_win()
             instr_title = "Instructions"
             instr_move = " Use keypad to move cursor"
             instr_select = " Press 'm' to select square"
