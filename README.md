@@ -3,7 +3,7 @@
 A command line game of tic tac toe for playing against an unbeatable AI opponent.
 
 <p align="center">
-    <img src="screenshot.png" style="margin: auto;" >
+    <img src="screen.png" style="margin: auto;" >
 </p>
 
 ## Getting Started
