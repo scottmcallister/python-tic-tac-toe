@@ -27,7 +27,20 @@ $ source env/bin/activate
 
 ### Prerequisites
 
-To run this script you'll need Python 3 and curses installed through pip. 
+To run this game you'll need Python 3 and curses installed through pip. 
+
+## Running Tests
+
+All unit tests have been written in `test.py`. The unit tests do not cover the rendering logic in `main.draw_game`, but all other helper functions can be tested. 
+
+```
+(env) $ python test.py
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+OK
+```
 
 ## Built With
 
