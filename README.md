@@ -1,6 +1,6 @@
 # python-tic-tac-toe
 
-A command line game of tic tac toe for playing against an unbeatable AI opponent.
+A terminal game of tic tac toe for playing against an unbeatable AI opponent.
 
 <p align="center">
     <img src="screen.png" style="margin: auto;" >
